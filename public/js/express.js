@@ -1,17 +1,47 @@
 $( document ).ready(function() {
+    var evtSource = new EventSource("/test");
+    console.log(evtSource)
+    evtSource.onmessage = function(e) {
+        console.log(e)
 
-    console.log()
+    }
+    evtSource.addEventListener("ping", function(e) {
+        console.log(e)
 
+    }, false);
+    evtSource.onerror = function(e) {
+        console.log("EventSource failed.");
+    };
     const vm = new Vue({
         el: '#calendar-vue',
         data:{
-            message: 'Hello Vue !',
+            message: '',
             title:'test'
         },
         methods: {
             HandleCLick: function () {
                 console.log('alert');
                 this.message = this.message.split('').reverse().join('')
+            },
+            RequestData:function () {
+                const headers = new Headers();
+                headers.append('Accept', 'application/json');
+                var params = {test:'test'};
+                var link ='movie';
+                var myInit = { method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(params)
+                };
+                fetch(link,myInit)
+                    .then(res => res.json())
+                    .then(response => console.log('Success:', response))
+                    .catch(error => console.error('Error:', error));
+            },
+            addNewTodo: function () {
+                console.log(this.message)
+                this.message =''
             }
         },
         computed:{
@@ -50,18 +80,4 @@ $( document ).ready(function() {
             }
         }
     })
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    var params = {test:'test'};
-    var link ='test';
-    var myInit = { method: 'POST',
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-    };
-    fetch(link,myInit)
-        .then(res => res.json())
-        .then(response => console.log('Success:', response))
-        .catch(error => console.error('Error:', error));
 });

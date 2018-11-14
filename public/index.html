@@ -8,25 +8,8 @@
 </head>
 <body>
 <div id="calendar-vue">
-    <h1>{{title}}</h1>
-    <button v-on:click="HandleCLick">Message retourné</button>
-{{CalendarFunction}}
-
-    <ul class="weekdays">
-        <li>Lun</li>
-        <li>Mar</li>
-        <li>Mer</li>
-        <li>JEU</li>
-        <li>VEN</li>
-        <li>SAM</li>
-        <li>DIM</li>
-    </ul>
-    <ul class="days">
-
-    <li v-for="value in CalendarFunction">
-        {{ value }}
-    </li>
-    </ul>
+    <input v-model="message">
+    <button v-on:click="addNewTodo">Add</button>
 </div>
 <div id="calendar">
 
